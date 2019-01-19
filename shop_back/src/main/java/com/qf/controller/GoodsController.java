@@ -54,7 +54,7 @@ public class GoodsController {
     @ResponseBody
     public String uploadImg(MultipartFile file) throws Exception {
 
-        //上传到FastDFS服务
+        //上传
         StorePath result = fastFileStorageClient.uploadImageAndCrtThumbImage(
                 file.getInputStream(),
                 file.getSize(),

@@ -13,3 +13,5 @@ dubbo:
     address: zookeeper://10.211.55.5:2181
   protocol:
     port: -1
+  consumer:
+    check: false
