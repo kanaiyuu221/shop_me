@@ -6,6 +6,7 @@ import com.qf.dao.IGoodsDao;
 import com.qf.entity.Goods;
 import com.qf.service.IGoodsService;
 import com.qf.service.ISearchService;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -19,6 +20,9 @@ public class GoodServiceImpl implements IGoodsService {
 
     @Reference
     private ISearchService searchService;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @Override
     public List<Goods> queryAll() {
@@ -35,7 +39,7 @@ public class GoodServiceImpl implements IGoodsService {
         //索引库
         searchService.insertIndexed(goods);
         //
-
+        rabbitTemplate.convertAndSend("good_exchange","",goods);
         return goods;
     }
 

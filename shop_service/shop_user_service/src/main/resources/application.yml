@@ -1,0 +1,18 @@
+server:
+  port: 8087
+spring:
+  datasource:
+    url: jdbc:mysql:///shop
+    username: root
+    password: 123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+dubbo:
+  registry:
+    address: zookeeper://10.211.55.5:2181
+  application:
+    name: user_service
+  protocol:
+    name: dubbo
+    port: -1
+  provider:
+    timeout: 10000
