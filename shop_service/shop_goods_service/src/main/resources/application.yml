@@ -12,6 +12,9 @@ spring:
     password: admin
     virtual-host: /admin
     port: 5672
+  redis:
+    host: 10.211.55.5
+    port: 6379
 dubbo:
   application:
     name: goods_service
@@ -21,3 +24,8 @@ dubbo:
     port: -1
   consumer:
     check: false
+  provider:
+    timeout: 10000
+
+mybatis-plus:
+  mapper-locations: classpath:com/qf/dao/mapper/*.xml

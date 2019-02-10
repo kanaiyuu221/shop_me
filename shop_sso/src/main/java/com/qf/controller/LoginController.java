@@ -3,6 +3,7 @@ package com.qf.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.gson.Gson;
 import com.qf.entity.User;
+import com.qf.service.ICartService;
 import com.qf.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.crypto.Data;
 import java.util.UUID;
 
 @Controller
@@ -26,20 +28,26 @@ public class LoginController {
     @Reference
     private IUserService userService;
 
+    @Reference
+    private ICartService cartService;
+
     @RequestMapping("/tologin")
-    public String toLogin(String returnUrl,Model model){
-        model.addAttribute("returnUrl",returnUrl);
+    public String toLogin(String returnUrl, Model model){
+        model.addAttribute("returnUrl", returnUrl);
         return "login";
     }
 
     @RequestMapping("/login")
-    public String login(String username, String password, Model model,HttpServletResponse response,String returnUrl){
+    public String login(@CookieValue(value = "cart_token",required = false) String cartToken, String username, String password, Model model, HttpServletResponse response, String returnUrl){
+        System.out.println("接收到的url>>>> "+returnUrl);
         System.out.println("接收到的："+username+" "+password);
         model.addAttribute("username",username);
         model.addAttribute("password",password);
         User user=userService.queryByUsernameAndPassword(username,password);
         System.out.println("查询到的user"+user);
         if (user!=null){
+
+            cartService.mergeCart(cartToken,user);
 
             if (returnUrl==null||"".equals(returnUrl)){
                 returnUrl="http://localhost:8082";
@@ -55,10 +63,10 @@ public class LoginController {
 
         }
         model.addAttribute("error","用户名或密码错误～～～！！！  ");
-        return "temp";
+        return "login";
     }
 
-    @RequestMapping("islogin")
+    @RequestMapping("/islogin")
     @ResponseBody
     public String isLogin(@CookieValue(value = "login_token",required = false)String token){
         System.out.println("获取的用户cookie>>> "+token);

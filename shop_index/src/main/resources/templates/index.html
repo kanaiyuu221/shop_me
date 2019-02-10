@@ -14,6 +14,34 @@
     <script type="text/javascript" src="js/shop_home_tab.js" ></script>
 
     <script type="text/javascript" src="http://localhost:8086/js/login.js"></script>
+    
+    <script type="text/javascript">
+        $(function () {
+            $.ajax({
+                url:"http://localhost:8088/cart/showlist",
+                success:function (data) {
+                    //alert(JSON.stringify(data));
+                    if (data != null && data.length>0){
+                        $("#bid").html(data.length)
+                        var html="<ul>"
+                        for (var i = 0; i < data.length; i++) {
+                            html += "<li>";
+                            //html += "<img style='width: 40px;height: 20px' src='http://10.211.55.5/"+data[i].goods.gimage+"'/><br>";
+                            html += "<span>"+data[i].goods.title+"</span>&nbsp;&nbsp;";
+                            html += "<span>x"+data[i].gnumber+"</span>";
+                            html += "</li>"
+                        }
+
+                        html += "</ul>"
+                    }
+
+                    $("#cartdiv").html(html);
+                },
+                dataType:"jsonp",
+                jsonpCallback:"cartlist"
+            })
+        })
+    </script>
 </head>
 <body>
 <!-- Header  -wll-2013/03/24 -->
@@ -39,6 +67,7 @@
                                     <li><a title="已买到的商品" target="_top" href="#">已买到的商品</a></li>
                                     <li><a title="个人主页" target="_top" href="#">个人主页</a></li>
                                     <li><a title="我的好友" target="_top" href="#">我的好友</a></li>
+                                    <li><a title="我的好友" target="_top" href="http://localhost:8089/order/showlist">我的订单</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -57,8 +86,8 @@
 
                     <li>
                         <div class="topNav_menu">
-                            <a href="#" class="topNavHover">购物车<b>0</b>种商品<i></i></a>
-                            <div class="topNav_menu_bd" style="display:none;">
+                            <a href="http://localhost:8088/cart/cartlist" class="topNavHover">购物车<b id="bid">0</b>种商品<i></i></a>
+                            <div class="topNav_menu_bd" style="display:none;" id="cartdiv">
                                 <!--
                                 <ul>
                                   <li><a title="已售出的商品" target="_top" href="#">已售出的商品</a></li>
@@ -107,10 +136,10 @@
             </ul>
             <div class="clear"></div>
             <div class="search_form">
-                <form method="post" action="http://localhost:8083/search/query">
+                <form method="get" action="http://localhost:8083/search/query">
                     <div class="search_formstyle">
                         <input type="text" class="search_form_text" name="keyword" placeholder="请输入关键词" />
-                        <input type="submit" class="search_form_sub" name="secrch_submit" value="" title="搜索" />
+                        <input type="submit" class="search_form_sub" value="" title="搜索" />
                     </div>
                 </form>
             </div>

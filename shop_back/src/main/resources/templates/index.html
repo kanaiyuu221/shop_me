@@ -76,6 +76,13 @@
                         <li><a onclick="itemclick(this);" th:name="${#request.getContextPath() + '/goods/list'}">商品管理</a></li>
                     </ul>
                 </li>
+
+                <li><a class="nav-top-item"> 订单管理 </a>
+                    <ul>
+                        <li><a onclick="itemclick(this);" th:name="${#request.getContextPath() + '/backOrder/backOrderList'}">订单预览</a></li>
+                    </ul>
+                </li>
+
             </ul>
         </div>
     </div>

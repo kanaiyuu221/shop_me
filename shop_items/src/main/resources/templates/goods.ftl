@@ -511,7 +511,7 @@
             <script type="text/javascript" src="js/lib.js"></script>
             <script type="text/javascript" src="js/163css.js"></script>
             <div id="preview">
-                <div class=jqzoom id="spec-n1" onClick="window.open('/')"><IMG height="350" src="${'http://10.211.55.5/' + goods.gimage}" jqimg="images/img04.jpg" width="350">
+                <div class=jqzoom id="spec-n1" onClick="window.open('/')"><IMG height="350" src="${'http://192.168.226.180/' + goods.gimage}" jqimg="images/img04.jpg" width="350">
                 </div>
                 <div id="spec-n5">
                     <div class=control id="spec-left">
@@ -609,12 +609,25 @@
                 </li>
                 <li style="padding:20px 0;">
                     <label>&nbsp;</label>
-                    <span><a href="" class="goods_sub goods_sub_gou" >加入购物车</a></span>
+                    <span><a onclick="addcart()" class="goods_sub goods_sub_gou" >加入购物车</a></span>
                 </li>
             </ul>
         </div>
     </div>
     <!-- 商品展示 End -->
+
+    <script>
+        function addcart() {
+            //当前商品的id
+            var gid = ${goods.id};
+            //当前商品的数量
+            var gnumber = $("#good_nums").val();
+            //alert("1234");
+            //跳转到添加购物车的请求
+            location.href = "http://localhost:8088/cart/add?gid=" + gid + "&gnumber=" + gnumber;
+        }
+    </script>
+
 
     <div class="clear mt15"></div>
     <!-- Goods Left -->
